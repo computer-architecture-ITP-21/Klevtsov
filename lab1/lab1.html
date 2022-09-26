@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>2 to 16</title>
+	<link rel="stylesheet" type="text/css" href="lab.css">
+</head>
+<body>
+	<div class="container">
+		<center>			
+			<label for="binary">Введите двоичное число</label><br>
+			<input type="text" name="binary" id="binary"><br>
+			<label for="hexadecimal">Шестнадцетиричное число:</label><br>	
+			<input type="text" name="hexadecimal" id="hexadecimal">
+		</center>
+	</div>
+
+
+
+	<script type="text/javascript">
+		const binary = document.getElementById("binary");
+		const hexadecimal = document.getElementById("hexadecimal");
+		let bin ='';
+
+		let num = [];
+		function updateValue() {
+			hexadecimal.value = '';	
+
+			bin += binary.value;
+			let mass = bin.split('',);										
+			let IsCorrect = true;									//переменная для проверки отсутствия других символов кроме 0 и 1
+			for (var i = 0; i < mass.length; i++) {								// проверка всего массива
+				if (mass[i]!="1" && mass[i]!="0") {IsCorrect = false;}
+			}
+
+			if (IsCorrect) {							//если всё ок, действуем
+
+				switch(mass.length%4)							// добавляем нули в начале, чтобы кратность символов была равна 4
+				{
+					case 1: mass.splice(0,0,"0","0","0");break;
+					case 2: mass.splice(0,0,"0","0");break;
+					case 3: mass.splice(0,0,"0");break;
+				}
+
+				for (var i = 0; i < mass.length; i++) {						//преобразуем символы в числа
+					mass[i]=parseInt(mass[i]);			
+				}	
+						
+				for (var i = 0; i < mass.length/4; i++) {										// записываем массив 16ричного числа
+					num.push(mass[4*i]*8 + mass[4*i+1]*4 + mass[4*i+2]*2 +mass[4*i+3]*1);
+				}
+
+				for (var i = 0; i < num.length; i++) {										//меняем значеняи выше 10 на буквы
+					switch(num[i])
+					{
+						case 10: num[i] = "A"; break;
+						case 11: num[i] = "B"; break;
+						case 12: num[i] = "C"; break;
+						case 13: num[i] = "D"; break;
+						case 14: num[i] = "E"; break;
+						case 15: num[i] = "F"; break;
+					}	
+				}
+				for (var i = 0; i < num.length; i++) {
+					hexadecimal.value+=num[i];
+				}		
+			}
+			else {
+				alert("вы ввели некоректное число, введите число состоящие из 1 и 0");
+			}
+			bin ='';				//чистка данных
+			num = [];
+
+		}	
+		binary.addEventListener('input', updateValue);
+	</script>
+</body>
+</html>
